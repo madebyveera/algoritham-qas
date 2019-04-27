@@ -1,0 +1,25 @@
+{
+  "name": "algoritham-qas",
+  "version": "1.0.0",
+  "description": "algoritham-qas",
+  "main": "rollup.config.js",
+  "scripts": {
+    "start": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madebyveera/algoritham-qas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madebyveera/algoritham-qas/issues"
+  },
+  "homepage": "https://github.com/madebyveera/algoritham-qas#readme",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "rollup": "^1.10.1"
+  }
+}

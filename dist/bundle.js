@@ -3,55 +3,29 @@
 
   class BinarySearchTree {
     constructor() {
-      //initially root is null
-
       this.root = null;
     }
 
-    insertNumberNode(data, left = null, right = null) {
-      //creating a Node
-      //data we pass will act as individual parent Node
-      //left and right are subtrees
-      let Node = {
-        data,
-        left,
-        right
-      };
-      //suppose currentNumberNode as a parent node
-      //current Num Node value decides position of next value
-      //if it goes to left subtree or right subtree
-      let currentNumberNode;
-
+    add(data, left = null, right = null) {
+      const node = { data, left, right };
       if (!this.root) {
-        //if its not a root make it one by passing a Node
-        this.root = Node;
+        this.root = node;
       } else {
-        //and if its a root now, assign it to currentNumberNode
-        currentNumberNode = this.root;
-        while (currentNumberNode) {
-          //if data is smaller than cuurent data, send it in left subtree
-          if (data < currentNumberNode.data) {
-            //if current num node don't have Node properties
-            //we will assign it node properties
-            if (!currentNumberNode.left) {
-              currentNumberNode.left = Node;
+        let nodeData = this.root;
+        while (nodeData) {
+          if (data < nodeData.data) {
+            if (!nodeData.left) {
+              nodeData.left = node;
               break;
             } else {
-              //if it has node properties and it is sent by root to left
-              //we will make it a left node because it is smaller than root node
-              currentNumberNode = currentNumberNode.left;
+              nodeData = nodeData.left;
             }
-            //if data is larger than cuurent data, send it in right subtree
-          } else if (data > currentNumberNode.data) {
-            //if current num node don't have Node properties
-            //we will assign it node properties
-            if (!currentNumberNode.right) {
-              currentNumberNode.right = Node;
+          } else if (data > nodeData.data) {
+            if (!nodeData.right) {
+              nodeData.right = node;
               break;
             } else {
-              //if it has node properties and it is sent by root to right
-              //we will make it a right node because it is larger than root node
-              currentNumberNode = currentNumberNode.right;
+              nodeData = nodeData.right;
             }
           } else {
             console.log("Try Different Value");
@@ -60,183 +34,230 @@
         }
       }
     }
+
+    print(){
+      console.log('Binary-Search-Tree Paper-1 == ', this.root);
+    }
   }
 
-  class SortNumericArray {
+  class ArrayManualSort {
+    manualSortArrayOfIntegers(inputArray) {
+      inputArray.filter((item, index) => {
+        var target = item;
+        for (var j = index - 1; j >= 0 && inputArray[j] > target; j--) {
+          inputArray[j + 1] = inputArray[j];
+        }
+        inputArray[j + 1] = target;
+      });
+      return inputArray;
+    }
+
+    isPalindromeString(inputStr) {
+      const strLen = inputStr.split("").reverse();
+      console.log("--- isPalindromeString ", strLen.join(''), inputStr);
+      return strLen.join('') === inputStr;
+    }
+  }
+
+  class StackStruct {
       
-      useArrayMethodSort(inputArray){
-          inputArray = inputArray.sort((a,b)=>a-b);
-          return inputArray
+      constructor(){
+          this.stack = [];
       }
 
-      useManualMethodSort(inputArray){
-          inputArray.filter((item, index)=>{
-              let target = item;
-              for(var j=index-1;
-                      j>=0 && inputArray[j]>target;
-                      j--){
-                          inputArray[j+1]=inputArray[j];
-                      }
-              inputArray[j+1] = target;
-          });
-          return inputArray
+      push(item){
+          this.stack.push(item);
       }
 
-  }
-
-  var sortNumericArray = new SortNumericArray();
-
-  class ReverseAnArray{
-
-      useArrayMethodForReverse(inputArray) {
-          return inputArray.reverse()
+      pop(){
+          let lifoStr = this.stack[this.stack.length-1];
+          this.stack = this.stack.slice(0, this.stack.length-1);
+          return lifoStr
       }
 
-      useManualMethodForReverse(inputArray) {
-          var revArray = [];
-          for(var j=inputArray.length; j>0; j--){
-              revArray.push(inputArray[j-1]);
-          }
-          return revArray;
+      peek(){
+          return this.stack[this.stack.length-1]
       }
 
-      arrayRevWithoutEffectingSpecChars(inputStr){
-          console.log('arrayRevWithoutEffectingSpecChars --== ', inputStr);
-          let str = inputStr.toLowerCase().split('');
-          var r = str.length - 1;
-          let l = 0; 
-          while (l < r) { 
-              if (!/^[a-zA-Z()]+$/.test(str[l])){
-                  l++; 
-              } else if(!/^[a-zA-Z()]+$/.test(str[r])) {
-                  r--;
-              } else { 
-                  var tmp = str[l]; 
-                  str[l] = str[r]; 
-                  str[r] = tmp; 
-                  l++; 
-                  r--; 
-              } 
-          } 
-          return str.join('')
-      }
-
-      useManualMethodForPalindrome(inputStr){
-          let str = inputStr.toLowerCase().split('');
-          let len = str.length;
-          for (var i = 0; i < len/2; i++) {
-              if (str[i] !== str[len - 1 - i]) {
-                  return false;
-              }
-          }
-          return true
+      isEmpty(){
+          return this.stack.length === 0
       }
 
   }
 
-  var reverseAnArray = new ReverseAnArray();
-
-  class DuplicateAndUniqueVals {
-
-      getUniqueValsForNumericArray(numericArray){
-          let uniqueVals = {};
-          numericArray.filter((item)=>{
-              uniqueVals[item] = {};
-          });
-          return Object.keys(uniqueVals)
+  class InfixToPostfix {
+    prec(ch) {
+      if (ch === "+" || ch === "-") {
+        return 1;
+      } else if (ch === "*" || ch === "/") {
+        return 2;
+      } else if (ch === "^") {
+        return 3;
       }
+      return -1;
+    }
 
-      getDuplicateValsForNumericArray(numericArray){
-          let duplicateVals = [];
-          let uniqueVals = {};
-          numericArray.filter((item)=>{
-              if(uniqueVals[item]){
-                  duplicateVals.push(item);
-              }
-              uniqueVals[item] = {};
-          });
-          return duplicateVals
-      }
+    getInfixToPostfix(str){
+        const exp = str.split('');
+        const stack = new StackStruct();
+        let result = '';
+        exp.filter((item, index) => {
+            if(item === "("){
+                stack.push(item);
+            }else if(item === ")"){
+                while(!stack.isEmpty() && stack.peek()!=="("){
+                    result = result + stack.pop();
+                }
+                stack.pop();
+            }else if(/^[a-zA-Z]+$/.test(item)){
+                result = result + item;
+            }else {
+                while(!stack.isEmpty() && this.prec(item)<this.prec(stack.peek())){
+                    result = result + stack.pop();
+                }
+                stack.push(item);
+            }
+        });
+        while(!stack.isEmpty()){
+            result = result + stack.pop();
+        }
+        return result
+    }
+  }
 
-      getDuplicateCharsInString(inputStr){
-          let charArray = inputStr.split('');
-          let uniqueChars = {};
-          let duplicateChars = [];
-          charArray.filter((item)=>{
-              if(uniqueChars[item]){
-                  duplicateChars.push(item);
-              }
-              uniqueChars[item] = {};
-          });
+  var infixToPostfix = new InfixToPostfix();
 
-          return duplicateChars.join('')
-      }
+  class PostfixToInfix {
 
-      constructCharCountArrayForStr(inputStr){
-          let charArray = inputStr.split('');
-          let uniqueChars = {};
-          charArray.filter((item)=>{
-              if(uniqueChars[item]){
-                  uniqueChars[item] = uniqueChars[item] + 1;
+      getPostfixToInfix(str){
+          const exp = str.split('');
+          const stack = new StackStruct();
+
+          exp.filter((item)=>{
+              if(/^[a-zA-Z]+$/.test(item)){
+                  stack.push(item+" ");
               }else {
-                  uniqueChars[item] = 1;
+                  const opr1 = stack.peek();
+                  stack.pop();
+                  const opr2 = stack.peek();
+                  stack.pop();
+                  stack.push('('+opr2+item+opr1+')');
               }
           });
 
-          for(var prop in uniqueChars){
-              if(uniqueChars[prop] === 1){
-                  delete uniqueChars[prop];
-              }
-          }
-
-          return uniqueChars;
+          return stack.peek()
       }
 
   }
 
-  var duplicateAndUniqueVals = new DuplicateAndUniqueVals();
+  var postfixToInfix = new PostfixToInfix();
 
-  let BSTtest = new BinarySearchTree();
-  BSTtest.insertNumberNode(10);
-  BSTtest.insertNumberNode(7);
-  BSTtest.insertNumberNode(14);
-  BSTtest.insertNumberNode(5);
-  BSTtest.insertNumberNode(13);
-  BSTtest.insertNumberNode(8);
-  BSTtest.insertNumberNode(18);
-  BSTtest.insertNumberNode(15);
-  BSTtest.insertNumberNode(6);
-  console.log(BSTtest);
+  class PaperOne {
+      run() {
+          const binarySearchTree = new BinarySearchTree();
+          binarySearchTree.add(7);
+          binarySearchTree.add(2);
+          binarySearchTree.add(9);
+          binarySearchTree.add(4);
+          binarySearchTree.print();
 
-  console.log('--- Filter New Values & Missing values in Array2');
-  let oldArray = [1,2,3];
-  let newArray = [2,3,4,5];
-  console.log(oldArray.filter(value => -1 === newArray.indexOf(value)));
-  console.log(newArray.filter(value => -1 === oldArray.indexOf(value)));
+          const arrayManualSort = new ArrayManualSort();
+          const result = arrayManualSort.manualSortArrayOfIntegers([5, 4, 23, 1, 18 ]);
+          console.log('--== manualSortArrayOfIntegers -- ', result);
+          console.log('--== isPalindromeString -- ', arrayManualSort.isPalindromeString('abba'));
 
-  // --=== Sorting Array of Numbers
-  let sortArray = [8,3,6,23,1,45,2,9];
-  console.log('--- Javascript useArraySortMethod ', sortNumericArray.useArrayMethodSort(sortArray));
-  console.log('--- Javascript useManualMethodSort ', sortNumericArray.useManualMethodSort(sortArray));
+          const stack = new StackStruct();
+          stack.push(7);
+          console.log('StackStruct::stack.peek() ', stack.peek());
+          stack.pop();
+          console.log('StackStruct::stack.isEmpty() ', stack.isEmpty());
+          
+          //-- InfixToPostfix
+          const response = infixToPostfix.getInfixToPostfix('a+b*(c^d-e)^(f+g*h)-i');
+          console.log('-- InfixToPostfix --== ', response);
+          //-- postfixToInfix
+          const postfixToInfixStr = postfixToInfix.getPostfixToInfix(response);
+          console.log('--postfixToInfixStr --== ', postfixToInfixStr);
+      }   
+  }
 
-  // --=== Find duplicate values in array
-  sortArray = [8,3,6,23,1,45,2,9,23,45];
-  console.log('--- array, uniqueValues, duplicateValues '
-                  , sortArray
-                  , duplicateAndUniqueVals.getUniqueValsForNumericArray(sortArray)
-                  , duplicateAndUniqueVals.getDuplicateValsForNumericArray(sortArray)
-                  , duplicateAndUniqueVals.getDuplicateCharsInString('Veera')
-                  , duplicateAndUniqueVals.constructCharCountArrayForStr('geeksforgeeks')
-                  );
+  var practicePaper1 = new PaperOne();
 
-  // --=== Array Reverse
-  sortArray = [8,3,6,23,1,45,2,9,23];
-  console.log('--=== ReverseAnArray --== '
-              , sortArray
-              , reverseAnArray.useManualMethodForReverse(sortArray)
-              , reverseAnArray.useManualMethodForPalindrome('RaceCar')
-              , reverseAnArray.useManualMethodForPalindrome('RaceCar2')
-              , reverseAnArray.arrayRevWithoutEffectingSpecChars('c,b$a')
-              );
+  practicePaper1.run();
+
+  // import BinarySearchTree from './binarySearchTree'
+  // import sortNumericArray from './sortNumericArray'
+  // import reverseAnArray   from './reverseAnArray'
+  // import duplicateAndUniqueVals from './duplicateAndUniqueVals'
+  // import StackDataStructure   from './stackDataStruct'
+  // import infixToPostfix from './infixToPostfix'
+  // import postfixToInfix from './postfixToInfix'
+
+  // let BSTtest = new BinarySearchTree()
+  // BSTtest.insertNumberNode(10);
+  // BSTtest.insertNumberNode(7);
+  // BSTtest.insertNumberNode(14);
+  // BSTtest.insertNumberNode(5);
+  // BSTtest.insertNumberNode(13);
+  // BSTtest.insertNumberNode(8);
+  // BSTtest.insertNumberNode(18);
+  // BSTtest.insertNumberNode(15);
+  // BSTtest.insertNumberNode(6);
+  // console.log(BSTtest)
+
+  // console.log('--- Filter New Values & Missing values in Array2')
+  // let oldArray = [1,2,3]
+  // let newArray = [2,3,4,5]
+  // console.log(oldArray.filter(value => -1 === newArray.indexOf(value)))
+  // console.log(newArray.filter(value => -1 === oldArray.indexOf(value)))
+
+  // // --=== Sorting Array of Numbers
+  // let sortArray = [8,3,6,23,1,45,2,9]
+  // console.log('--- Javascript useArraySortMethod ', sortNumericArray.useArrayMethodSort(sortArray))
+  // console.log('--- Javascript useManualMethodSort ', sortNumericArray.useManualMethodSort(sortArray))
+
+  // // --=== Find duplicate values in array
+  // sortArray = [8,3,6,23,1,45,2,9,23,45]
+  // console.log('--- array, uniqueValues, duplicateValues '
+  //                 , sortArray
+  //                 , duplicateAndUniqueVals.getUniqueValsForNumericArray(sortArray)
+  //                 , duplicateAndUniqueVals.getDuplicateValsForNumericArray(sortArray)
+  //                 , duplicateAndUniqueVals.getDuplicateCharsInString('Veera')
+  //                 , duplicateAndUniqueVals.constructCharCountArrayForStr('geeksforgeeks')
+  //                 )
+
+  // // --=== Array Reverse
+  // sortArray = [8,3,6,23,1,45,2,9,23]
+  // console.log('--=== ReverseAnArray --== '
+  //             , sortArray
+  //             , reverseAnArray.useManualMethodForReverse(sortArray)
+  //             , reverseAnArray.useManualMethodForPalindrome('RaceCar')
+  //             , reverseAnArray.useManualMethodForPalindrome('RaceCar2')
+  //             , reverseAnArray.arrayRevWithoutEffectingSpecChars('c,b$a')
+  //             )
+
+  // // --=== Stack
+  // let stack = new StackDataStructure()
+  // stack.push(22)
+  // stack.push(23)
+  // stack.push(24)
+  // stack.push(25)
+  // stack.push(26)
+  // stack.print()
+  // stack.pop()
+  // stack.print()
+  // stack.peek()
+  // stack.print()
+  // stack.isEmpty()
+  // stack.print()
+  // stack.peek()
+  // stack.peek()
+  // stack.peek()
+  // stack.print()
+  // stack.isEmpty()
+  // //-- infixToPostfix
+  // infixToPostfix.run("a+b*(c^d-e)^(f+g*h)-i")
+  // // -- postfixToInfix
+  // postfixToInfix.run("abc++")
 
 }());
