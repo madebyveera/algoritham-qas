@@ -94,18 +94,176 @@
 
   }
 
-  let node = new BinarySearchTree();
-  node.insertNumberNode(20);
-  node.insertNumberNode(8);
-  node.insertNumberNode(4);
-  node.insertNumberNode(12);
-  node.insertNumberNode(10);
-  node.insertNumberNode(14);
-  node.insertNumberNode(22);
-  node.insertNumberNode(25);
-  console.log('---- BinarySearchTree ', node);
+  class node {
+      constructor(element) {
+          this.element = element;
+          this.next = null;
+      }
+  }
+
+  class LinkedList { 
+      constructor() { 
+          this.head = null; 
+          this.size = 0; 
+      } 
+      
+      add(element) {
+          var node$1 = new node(element);
+          var current;
+          if (this.head == null) {
+              this.head = node$1; 
+          } else { 
+              current = this.head; 
+              while (current.next) {
+                  current = current.next;
+              }
+              current.next = node$1; 
+          }
+          this.size++;
+      }
+      insertAt(element, index) {
+          if (index > 0 && index > this.size) {
+              return false; 
+          } else {
+              var node$1 = new node(element);
+              var curr, prev;
+              curr = this.head;
+              if (index === 0) { 
+                  node$1.next = head; 
+                  this.head = node$1; 
+              } else { 
+                  curr = this.head;
+                  var it = 0;
+                  while (it < index) { 
+                      it++; 
+                      prev = curr; 
+                      curr = curr.next; 
+                  } 
+                  node$1.next = curr; 
+                  prev.next = node$1;
+              }
+              this.size++; 
+          }
+      }
+      removeFrom(index){
+          if (index > 0 && index > this.size) {
+              return false; 
+          } else {
+              var curr, prev, it = 0; 
+              curr = this.head; 
+              prev = curr; 
+              if (index === 0) { 
+                  this.head = curr.next; 
+              } else { 
+                  while (it < index) { 
+                      it++; 
+                      prev = curr; 
+                      curr = curr.next; 
+                  } 
+                  prev.next = curr.next; 
+              }
+              this.size--; 
+              return curr.element; 
+          }
+      }
+
+      removeElement(element) { 
+          var current = this.head; 
+          var prev = null; 
+          while (current != null) { 
+              if (current.element === element) { 
+                  if (prev == null) { 
+                      this.head = current.next; 
+                  } else { 
+                      prev.next = current.next; 
+                  } 
+                  this.size--; 
+                  return current.element; 
+              } 
+              prev = current; 
+              current = current.next; 
+          } 
+          return -1; 
+      }
+
+      indexOf(element) { 
+          var count = 0; 
+          var current = this.head; 
+          while (current != null) { 
+              if (current.element === element) 
+                  return count; 
+              count++; 
+              current = current.next; 
+          } 
+          return -1; 
+      }
+
+      isEmpty() { 
+          return this.size == 0; 
+      }
+
+      size_of_list() { 
+          console.log(this.size); 
+      }
+
+      printList() { 
+          var curr = this.head; 
+          var str = ""; 
+          while (curr) { 
+              str += curr.element + " "; 
+              curr = curr.next; 
+          } 
+          console.log(str); 
+      }
+  }
+
+  class Runner {
+      run() {
+          var ll = new LinkedList(); 
+          console.log(ll.isEmpty()); 
+          ll.add(10); 
+          ll.printList(); 
+          console.log(ll.size_of_list()); 
+
+          ll.add(20); 
+          ll.add(30); 
+          ll.add(40); 
+          ll.add(50); 
+          // returns 10 20 30 40 50 
+          ll.printList(); 
+          // prints 50 from the list 
+          console.log("is element removed ?" + ll.removeElement(50)); 
+          // prints 10 20 30 40 
+          ll.printList(); 
+          // returns 3 
+          console.log("Index of 40 " + ll.indexOf(40)); 
+          // insert 60 at second positon 
+          // ll contains 10 20 60 30 40 
+          ll.insertAt(60, 2); 
+          ll.printList(); 
+          // returns false 
+          console.log("is List Empty ? " + ll.isEmpty()); 
+          // remove 3rd element from the list 
+          console.log(ll.removeFrom(3)); 
+          // prints 10 20 60 40 
+          ll.printList(); 
+      }
+  }
+
+  let node$1 = new BinarySearchTree();
+  node$1.insertNumberNode(20);
+  node$1.insertNumberNode(8);
+  node$1.insertNumberNode(4);
+  node$1.insertNumberNode(12);
+  node$1.insertNumberNode(10);
+  node$1.insertNumberNode(14);
+  node$1.insertNumberNode(22);
+  node$1.insertNumberNode(25);
+  console.log('---- BinarySearchTree ', node$1);
   let boundaryTravers = new BoundaryTraversalOfBinaryTree();
-  boundaryTravers.printBoundary(node.root);
+  boundaryTravers.printBoundary(node$1.root);
+  let linkedListRunner = new Runner();
+  linkedListRunner.run();
 
   // import BinarySearchTree from './binarySearchTree'
   // import sortNumericArray from './sortNumericArray'

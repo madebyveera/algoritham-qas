@@ -18,6 +18,10 @@ console.log('---- BinarySearchTree ', node)
 let boundaryTravers = new BoundaryTraversalOfBinaryTree();
 boundaryTravers.printBoundary(node.root)
 
+import Runner from './LinkedList/Runner'
+let linkedListRunner = new Runner();
+linkedListRunner.run();
+
 // import BinarySearchTree from './binarySearchTree'
 // import sortNumericArray from './sortNumericArray'
 // import reverseAnArray   from './reverseAnArray'
