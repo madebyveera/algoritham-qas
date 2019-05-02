@@ -3,29 +3,36 @@
 
   class BinarySearchTree {
     constructor() {
+      //initially root is null
+
       this.root = null;
     }
 
-    add(data, left = null, right = null) {
-      const node = { data, left, right };
+    insertNumberNode(data, left = null, right = null) {
+      let Node = {
+        data,
+        left,
+        right
+      };
+      let currentNumberNode;
       if (!this.root) {
-        this.root = node;
+        this.root = Node;
       } else {
-        let nodeData = this.root;
-        while (nodeData) {
-          if (data < nodeData.data) {
-            if (!nodeData.left) {
-              nodeData.left = node;
+        currentNumberNode = this.root;
+        while (currentNumberNode) {
+          if (data < currentNumberNode.data) {
+            if (!currentNumberNode.left) {
+              currentNumberNode.left = Node;
               break;
             } else {
-              nodeData = nodeData.left;
+              currentNumberNode = currentNumberNode.left;
             }
-          } else if (data > nodeData.data) {
-            if (!nodeData.right) {
-              nodeData.right = node;
+          } else if (data > currentNumberNode.data) {
+            if (!currentNumberNode.right) {
+              currentNumberNode.right = Node;
               break;
             } else {
-              nodeData = nodeData.right;
+              currentNumberNode = currentNumberNode.right;
             }
           } else {
             console.log("Try Different Value");
@@ -34,156 +41,71 @@
         }
       }
     }
-
-    print(){
-      console.log('Binary-Search-Tree Paper-1 == ', this.root);
-    }
   }
 
-  class ArrayManualSort {
-    manualSortArrayOfIntegers(inputArray) {
-      inputArray.filter((item, index) => {
-        var target = item;
-        for (var j = index - 1; j >= 0 && inputArray[j] > target; j--) {
-          inputArray[j + 1] = inputArray[j];
-        }
-        inputArray[j + 1] = target;
-      });
-      return inputArray;
-    }
+  class BoundaryTraversalOfBinaryTree {
 
-    isPalindromeString(inputStr) {
-      const strLen = inputStr.split("").reverse();
-      console.log("--- isPalindromeString ", strLen.join(''), inputStr);
-      return strLen.join('') === inputStr;
-    }
-  }
-
-  class StackStruct {
-      
       constructor(){
-          this.stack = [];
+
       }
 
-      push(item){
-          this.stack.push(item);
-      }
-
-      pop(){
-          let lifoStr = this.stack[this.stack.length-1];
-          this.stack = this.stack.slice(0, this.stack.length-1);
-          return lifoStr
-      }
-
-      peek(){
-          return this.stack[this.stack.length-1]
-      }
-
-      isEmpty(){
-          return this.stack.length === 0
-      }
-
-  }
-
-  class InfixToPostfix {
-    prec(ch) {
-      if (ch === "+" || ch === "-") {
-        return 1;
-      } else if (ch === "*" || ch === "/") {
-        return 2;
-      } else if (ch === "^") {
-        return 3;
-      }
-      return -1;
-    }
-
-    getInfixToPostfix(str){
-        const exp = str.split('');
-        const stack = new StackStruct();
-        let result = '';
-        exp.filter((item, index) => {
-            if(item === "("){
-                stack.push(item);
-            }else if(item === ")"){
-                while(!stack.isEmpty() && stack.peek()!=="("){
-                    result = result + stack.pop();
-                }
-                stack.pop();
-            }else if(/^[a-zA-Z]+$/.test(item)){
-                result = result + item;
-            }else {
-                while(!stack.isEmpty() && this.prec(item)<this.prec(stack.peek())){
-                    result = result + stack.pop();
-                }
-                stack.push(item);
-            }
-        });
-        while(!stack.isEmpty()){
-            result = result + stack.pop();
-        }
-        return result
-    }
-  }
-
-  var infixToPostfix = new InfixToPostfix();
-
-  class PostfixToInfix {
-
-      getPostfixToInfix(str){
-          const exp = str.split('');
-          const stack = new StackStruct();
-
-          exp.filter((item)=>{
-              if(/^[a-zA-Z]+$/.test(item)){
-                  stack.push(item+" ");
-              }else {
-                  const opr1 = stack.peek();
-                  stack.pop();
-                  const opr2 = stack.peek();
-                  stack.pop();
-                  stack.push('('+opr2+item+opr1+')');
+      printBoundaryRight(node) {
+          if (node !== null) {
+              if (node.right != null) { 
+                  console.log(node.data+'');
+                  this.printBoundaryRight(node.left);
+              }else if(node.left != null){
+                  console.log(node.data + " "); 
+                  this.printBoundaryRight(node.right); 
               }
-          });
+          }
+      }
 
-          return stack.peek()
+      printLeaves(node) {
+          if (node != null) { 
+              this.printLeaves(node.left); 
+              if (node.left == null && node.right == null) 
+                  console.log(node.data + " "); 
+              this.printLeaves(node.right); 
+          } 
+      }
+
+      printBoundaryLeft(node) {
+          if (node !== null) {
+              if (node.left != null) { 
+                  console.log(node.data+'');
+                  this.printBoundaryLeft(node.left);
+              }else if(node.right != null){
+                  console.log(node.data + " "); 
+                  this.printBoundaryLeft(node.right); 
+              }
+          }
+      }
+
+      printBoundary(node) {
+          if(node !== null) {
+              console.log(node.data + " ");
+              this.printBoundaryLeft(node.left);
+              this.printLeaves(node.left);
+              this.printLeaves(node.right);
+              this.printBoundaryRight(node.right);
+          }
       }
 
   }
 
-  var postfixToInfix = new PostfixToInfix();
-
-  class PaperOne {
-      run() {
-          const binarySearchTree = new BinarySearchTree();
-          binarySearchTree.add(7);
-          binarySearchTree.add(2);
-          binarySearchTree.add(9);
-          binarySearchTree.add(4);
-          binarySearchTree.print();
-
-          const arrayManualSort = new ArrayManualSort();
-          const result = arrayManualSort.manualSortArrayOfIntegers([5, 4, 23, 1, 18 ]);
-          console.log('--== manualSortArrayOfIntegers -- ', result);
-          console.log('--== isPalindromeString -- ', arrayManualSort.isPalindromeString('abba'));
-
-          const stack = new StackStruct();
-          stack.push(7);
-          console.log('StackStruct::stack.peek() ', stack.peek());
-          stack.pop();
-          console.log('StackStruct::stack.isEmpty() ', stack.isEmpty());
-          
-          //-- InfixToPostfix
-          const response = infixToPostfix.getInfixToPostfix('a+b*(c^d-e)^(f+g*h)-i');
-          console.log('-- InfixToPostfix --== ', response);
-          //-- postfixToInfix
-          const postfixToInfixStr = postfixToInfix.getPostfixToInfix(response);
-          console.log('--postfixToInfixStr --== ', postfixToInfixStr);
-      }   
-  }
-
-  var practicePaper1 = new PaperOne();
-
-  practicePaper1.run();
+  let node = new BinarySearchTree();
+  node.insertNumberNode(20);
+  node.insertNumberNode(8);
+  node.insertNumberNode(4);
+  node.insertNumberNode(12);
+  node.insertNumberNode(10);
+  node.insertNumberNode(14);
+  node.insertNumberNode(22);
+  node.insertNumberNode(25);
+  console.log('---- BinarySearchTree ', node);
+  let boundaryTravers = new BoundaryTraversalOfBinaryTree();
+  boundaryTravers.printBoundary(node.root);
 
   // import BinarySearchTree from './binarySearchTree'
   // import sortNumericArray from './sortNumericArray'

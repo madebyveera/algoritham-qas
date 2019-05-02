@@ -1,7 +1,22 @@
 
 // -- PracticePaper
-import practicePaper1 from './practice/paper-1/index'
-practicePaper1.run()
+// import practicePaper1 from './practice/paper-1/index'
+// practicePaper1.run()
+
+import BinarySearchTree from './binarySearchTree'
+import BoundaryTraversalOfBinaryTree from './boundaryTraversalOfBinaryTree'
+let node = new BinarySearchTree();
+node.insertNumberNode(20)
+node.insertNumberNode(8)
+node.insertNumberNode(4)
+node.insertNumberNode(12)
+node.insertNumberNode(10)
+node.insertNumberNode(14)
+node.insertNumberNode(22)
+node.insertNumberNode(25)
+console.log('---- BinarySearchTree ', node)
+let boundaryTravers = new BoundaryTraversalOfBinaryTree();
+boundaryTravers.printBoundary(node.root)
 
 // import BinarySearchTree from './binarySearchTree'
 // import sortNumericArray from './sortNumericArray'
